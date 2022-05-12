@@ -1,0 +1,245 @@
+Few keywordsabout the pointers
+    - bytes
+    - memory
+    - variable
+    - data types
+    - memory allocation
+    - int = 4 bytes
+    - char = 1 byte
+    - float = 4 bytes
+    - double = 8 bytes
+    - typecasting variables
+    - local variable
+    - stack frame
+    - actual argument
+    - formal argument
+    - calling function
+    - called function
+    - parameter and method
+    - function call stack 
+    - call by value
+    - pointers as function argument
+
+
+
+
+    Pointer variable declarations
+    normal declarations of vatiable
+        int a;
+    pointer variable  declarations
+        int *p; (* - asterisk sign)
+        int* p;
+        p = &a; (stores the address of the variable data type)
+        a = 5;
+        print p  // gives address of the variable a
+        print &a // gives address of the variable a
+        print &p // gives address of the pointer variable p
+        print *p (dereferencing) // gives the value at the location it  address to
+        *p = 8;
+        print a // 8
+
+        int a = 10;
+        int *p;
+        p = &a;
+        int *p = &a; the two statements are equal
+        
+
+    Few definitions or to say discription of few topics
+
+    Pointers
+        Pointers are the variables that store address of another variable
+
+    call by reference ( saves alot of memory)
+        In the value of the variable we pass the address of the variable to give reference to the variable 
+         so that we can deference it to change the value of the variable we refered to it address.
+
+
+--------------------------------------------------------------------------------------------
+
+Pointers types, void pointer, pointer arithmetic
+________________________________________________
+
+- pointer variable are strongly typed
+        - int * -> int
+        - char * -> char
+    Dereferencing
+        - Access / modify value
+- pointer arithmetic
+    - the only pointer arithmetic is allowed is adding or subtracting pointer with constant integer value
+
+- Generic pointer type
+    void *p;
+    p = p0;
+    printf("Address  =  %d, value = %d\n", p0, *p0); // this is not possible,
+    because you cons't deference your pointer   
+
+- Pointer to pointer
+   - Pointer to pointer referencing address
+   - pointer to pointer dereferencing value
+
+----------------------------------------------------------------
+Pointers as function arguments - call by reference
+    #include <stdio.h>
+    void increment(int a)
+    {
+        a = a+1;
+        printf("a = %d\n", a);
+        printf("address of the variable a in increment = %d\n", &a);
+    }
+    int main()
+    {
+        int a;
+        a = 10;
+        increment(a);
+        printf("a = %d\n", a);
+        printf("address of the variable a in main = %d\n", &a);
+    } 
+
+    note:
+        - local variable can be accessed only inside function, hence here
+        the local variable a inside main function isn't accesseble by the local variable
+        a inside the increment function. 
+
+        - Application's memory
+            > Heap
+            > Stack
+            > Static/Global
+            > Code(Text)
+        
+    #include <stdio.h>
+    void increment(int *p) 
+    {
+        *p = *p + 1;
+        printf("value of pointer p reference to variable a is %d\n", *p);
+    }
+
+    int main()
+    {
+        int a = 10;
+        printf("a = %d\n", a);
+        increment(&a);
+        printf("a = %d\n", a);
+    }
+    
+    This program does the required operation by passing pointers as arguments
+        - call by value ( a - x)
+
+------------------------------------------------------------------------------------------------
+
+Pointers and Arrays
+___________________
+    - Element at index i
+        Address - &a[i] or (a+i)
+        value - a[i] or *(a+i)
+    - the address of the first element in the array can be 
+      called as base address and simply calling an array A can give the
+      base address of the first element.
+
+    - arrays as a function arguments are being call by reference in stade of 
+    providing whole value to the function arguments because the value of an 
+    array can be large or infinite but if we call an array as reference with base
+    address the system use pointers to locate the value of the array elements
+
+A simle program for pointers in array usage
+#include <stdio.h>
+
+int main() 
+{
+    int a[] = {0,1,2,3,4,5,6,7,8,9};
+    for(int i = 0; i < sizeof(a)/4; i++){
+        printf("address of the element %d in the array a is : %d\n", i, &a[i]);
+        printf("address of the element %d in the array a is : %d\n", i, a+i);
+        printf("value of the element %d in the array a is : %d\n", i, a[i]);
+        printf("value of the element %d in the array a is : %d\n", i, *(a+i));
+    }
+
+}
+
+A simle program for change the value of array inside a function using pointer 
+
+#include <stdio.h>
+
+void changevalue(int* a, int size)
+{
+    for(int i=0; i < size; i++)
+    {
+        *(a+i) = *(a+i) + 1;
+    }
+}
+
+int main()
+{
+    int x[] = {1,2,3,4,5,6,7,8,9,10};
+    int size = sizeof(x)/sizeof(x[0]);
+    printf("size of the array x %d\n", size);
+    printf("address of the array x %d\n", x);
+    changevalue(x,size);
+    for(int i=0; i < size; i++)
+    {
+        printf("value of the array x element %d is %d\n",i, x[i]);
+
+    }
+
+}
+
+-------------------------------------------------------------------------------------------
+
+Character arrays and pointers
+
+    - string -> group of characters
+    # size of array >= no of characters in the string + 1
+    # all the functions for string manipulation in C expects that strings will null terminated(\0)
+
+A Program to transfer a string from one character array to another character array using pointer functions using call by reference functions
+
+#include <stdio.h>
+
+void print(char *C,char *B)
+{
+    int i = 0;
+    while(C[i] != '\0')
+    {
+        *(B+i) = *(C+i); 
+        printf("%c", B[i]);
+        i++;
+    }
+    printf("\n");
+}
+
+int main()
+{
+    char A[] = "HELLO";
+    int size = sizeof(A)/sizeof(A[0]);
+    char D[size]; 
+    print(A,D);
+}  
+
+The Other Example 
+
+#include <stdio.h>
+
+void print(const char* C)
+{
+    while(*C != '\0')
+    {
+        printf("%c", *C);
+        C = C+1;
+    }
+    printf("\n");
+}
+
+int main()
+{
+    char C[] = "Hello, World!"; // string gets stored in the space for array
+    // char *C = "Hello, World!"; // string gets stored as compiled time constant
+    // C[0] = 'A'; // which can't be changed as compiler make C as constant during complie time
+    print(C);
+    //printf("%c\n", *C);
+}
+
+----------------------------------------------------------------    
+
+Pointers and Multi-dimentional arrays
+_____________________________________
+    - *(A+i) is same as A[i]
+    - (A+i) is same as &A[i]
