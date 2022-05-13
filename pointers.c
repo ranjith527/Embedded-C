@@ -1,20 +1,13 @@
 #include <stdio.h>
 
-void print(const char* C)
-{
-    while(*C != '\0')
-    {
-        printf("%c", *C);
-        C = C+1;
-    }
-    printf("\n");
-}
-
 int main()
 {
-    char C[] = "Hello, World!"; // string gets stored in the space for array
-    // char *C = "Hello, World!"; // string gets stored as compiled time constant
-    // C[0] = 'A'; // which can't be changed as compiler make C as constant during complie time
-    print(C);
-    //printf("%c\n", *C);
+    int B[5] = {12, 13, 15, 17, 19};
+    int A[2][5] = {
+                    {1,2,3,4,5},
+                    {6,7,8,9,0}
+                };
+    printf("%d\n", A);
+    printf("%d\n", *A);
+    printf("%d\n", *(*(A+1)+3));
 }
